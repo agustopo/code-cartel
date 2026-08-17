@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import QRCode from 'qrcode';
 
 type CodeItem = {
@@ -171,60 +171,119 @@ function LabelCard({
   onDelete: () => void;
   saving: boolean;
 }) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [qrDataUrl, setQrDataUrl] = useState<string | null>(null);
   const targetUrl = `${domain}/r/${item.code}`;
+  const isActive = item.status === 'active';
 
   useEffect(() => {
-    if (canvasRef.current) {
-      QRCode.toCanvas(canvasRef.current, targetUrl, { width: 160, margin: 1, color: { dark: '#14181C' } });
-    }
+    let cancelled = false;
+    QRCode.toDataURL(targetUrl, { width: 320, margin: 1, color: { dark: '#14181C', light: '#FFFFFF' } })
+      .then((url) => {
+        if (!cancelled) setQrDataUrl(url);
+      })
+      .catch(() => {
+        if (!cancelled) setQrDataUrl(null);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [targetUrl]);
 
   function downloadQr() {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!qrDataUrl) return;
     const a = document.createElement('a');
     a.download = `qr-${item.code}.png`;
-    a.href = canvas.toDataURL('image/png');
+    a.href = qrDataUrl;
     a.click();
   }
 
   return (
-    <div style={{ position: 'relative', background: '#fff', border: '1.5px dashed #B9BEC4', borderRadius: 4, padding: '18px 16px 16px' }}>
-      <span
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        background: '#fff',
+        border: '1.5px dashed #B9BEC4',
+        borderRadius: 6,
+        padding: 16,
+        overflow: 'hidden',
+      }}
+    >
+      {/* Header: name/code on the left, status badge on the right — same row, never overlapping */}
+      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8, marginBottom: 14 }}>
+        <div style={{ minWidth: 0 }}>
+          <div
+            style={{
+              fontSize: 14.5,
+              fontWeight: 700,
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+            }}
+          >
+            {item.business || 'Sin nombre'}
+          </div>
+          <div style={{ fontFamily: 'monospace', fontSize: 11.5, color: 'var(--muted)', marginTop: 2 }}>{item.code}</div>
+        </div>
+        <span
+          style={{
+            flexShrink: 0,
+            fontSize: 10,
+            fontWeight: 700,
+            padding: '3px 8px',
+            borderRadius: 3,
+            border: '1.5px solid currentColor',
+            color: isActive ? 'var(--green)' : 'var(--red)',
+            background: isActive ? 'var(--green-dim)' : 'var(--red-dim)',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {isActive ? 'ACTIVO' : 'PENDIENTE'}
+        </span>
+      </div>
+
+      {/* QR code: fixed square box, image scales to fit, never bleeds outside */}
+      <div
         style={{
-          position: 'absolute',
-          top: 12,
-          right: 12,
-          fontSize: 10,
-          fontWeight: 700,
-          padding: '3px 8px',
-          borderRadius: 3,
-          border: '1.5px solid currentColor',
-          color: item.status === 'active' ? 'var(--green)' : 'var(--red)',
-          background: item.status === 'active' ? 'var(--green-dim)' : 'var(--red-dim)',
+          width: '100%',
+          aspectRatio: '1 / 1',
+          maxWidth: 160,
+          margin: '0 auto 12px',
+          border: '1px solid var(--line)',
+          borderRadius: 4,
+          background: '#fff',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          overflow: 'hidden',
         }}
       >
-        {item.status === 'active' ? 'ACTIVO' : 'PENDIENTE'}
-      </span>
+        {qrDataUrl ? (
+          <img
+            src={qrDataUrl}
+            alt={`Código QR para ${item.code}`}
+            style={{ width: '88%', height: '88%', objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <span style={{ fontSize: 11, color: 'var(--muted)' }}>Generando…</span>
+        )}
+      </div>
 
-      <div style={{ display: 'flex', gap: 12, marginBottom: 10 }}>
-        <div style={{ width: 88, height: 88, border: '1px solid var(--line)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-          <canvas ref={canvasRef} style={{ width: 80, height: 80 }} />
-        </div>
-        <div style={{ minWidth: 0 }}>
-          <div style={{ fontFamily: 'monospace', fontSize: 15, fontWeight: 700 }}>{item.code}</div>
-          <div style={{ fontSize: 13.5, color: 'var(--muted)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-            {item.business}
-          </div>
-          <div style={{ fontFamily: 'monospace', fontSize: 10.5, color: 'var(--muted)', marginTop: 6, wordBreak: 'break-all' }}>
-            {targetUrl}
-          </div>
-        </div>
+      <div
+        style={{
+          fontFamily: 'monospace',
+          fontSize: 10.5,
+          color: 'var(--muted)',
+          textAlign: 'center',
+          wordBreak: 'break-all',
+          marginBottom: 14,
+        }}
+      >
+        {targetUrl}
       </div>
 
       <label style={label}>Link de reseña de Google</label>
-      <div style={{ display: 'flex', gap: 6, marginBottom: 8 }}>
+      <div style={{ display: 'flex', gap: 6, marginBottom: 10 }}>
         <input
           type="text"
           value={draft}
@@ -232,17 +291,17 @@ function LabelCard({
           placeholder="https://g.page/r/..."
           style={{ fontSize: 12.5, padding: '8px 10px' }}
         />
-        <button onClick={onSave} disabled={saving} style={{ background: 'transparent', border: '1px solid var(--line)', fontSize: 12.5, padding: '7px 12px' }}>
+        <button onClick={onSave} disabled={saving} style={{ background: 'transparent', border: '1px solid var(--line)', fontSize: 12.5, padding: '7px 12px', flexShrink: 0 }}>
           {saving ? '…' : 'Guardar'}
         </button>
       </div>
 
-      <div style={{ fontFamily: 'monospace', fontSize: 11, color: 'var(--muted)', marginBottom: 8 }}>
+      <div style={{ fontFamily: 'monospace', fontSize: 11, color: 'var(--muted)', marginBottom: 10 }}>
         {item.scanCount} escaneo{item.scanCount === 1 ? '' : 's'} registrado{item.scanCount === 1 ? '' : 's'}
       </div>
 
-      <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-        <button onClick={downloadQr} style={smallBtn}>Descargar QR</button>
+      <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 'auto' }}>
+        <button onClick={downloadQr} disabled={!qrDataUrl} style={smallBtn}>Descargar QR</button>
         <button
           onClick={() => navigator.clipboard.writeText(targetUrl)}
           style={smallBtn}
