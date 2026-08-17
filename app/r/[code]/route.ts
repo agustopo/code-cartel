@@ -1,11 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '../../../lib/supabaseAdmin';
 
-export const dynamic = 'force-dynamic';
-
 // Esta ruta es a la que apunta el QR impreso: tusitio.com/r/CODIGO
 // Busca el link guardado para ese código y redirige para allá.
 // Si todavía no tiene link cargado, muestra una página simple de "en preparación".
+//
+// IMPORTANTE: forzamos que sea siempre dinámica. Sin esto, Next.js puede
+// cachear la respuesta y servir un link viejo hasta la próxima revalidación,
+// que es justo el retraso que se estaba viendo al actualizar el link.
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 export async function GET(req: NextRequest, { params }: { params: { code: string } }) {
   const code = params.code?.toUpperCase();
   const supabase = supabaseAdmin();
