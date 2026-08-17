@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '../../../lib/supabaseAdmin';
 
-export const dynamic = 'force-dynamic';
-
 export async function GET() {
   // El dominio "oficial" es el de la variable de entorno (el que realmente
   // vas a usar en producción). Se expone acá solo para mostrarlo en el panel.
