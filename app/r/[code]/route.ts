@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '../../../lib/supabaseAdmin';
 
+export const dynamic = 'force-dynamic';
+
 // Esta ruta es a la que apunta el QR impreso: tusitio.com/r/CODIGO
 // Busca el link guardado para ese código y redirige para allá.
 // Si todavía no tiene link cargado, muestra una página simple de "en preparación".
