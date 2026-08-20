@@ -62,7 +62,7 @@ function pendingHtml() {
   .pago{font-size:14px;line-height:1.7;color:#fff;margin:0 0 20px;}
   .pago strong{font-weight:700;}
   .total{font-size:20px;font-weight:700;color:#fff;margin:0 0 8px;}
-  .brand{margin-top:20px;font-size:22px;font-weight:700;color:#fff;}
+  .brand{margin-top:20px;width:120px;height:auto;}
 </style></head>
 <body>
   <div class="box">
@@ -75,7 +75,7 @@ function pendingHtml() {
       Banco: <strong>Ualá Bank S.A.U.</strong>
     </p>
     <p class="total">TOTAL $35.000</p>
-    <div class="brand">Revi</div>
+    <img class="brand" src="/revi-logo.png" alt="Revi" />
   </div>
 </body></html>`;
 }

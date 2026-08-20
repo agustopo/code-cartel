@@ -177,6 +177,8 @@ function LabelCard({
   useEffect(() => {
     if (canvasRef.current) {
       QRCode.toCanvas(canvasRef.current, targetUrl, { width: 160, margin: 1, color: { dark: '#14181C' } });
+      canvasRef.current.style.width = '80px';
+      canvasRef.current.style.height = '80px';
     }
   }, [targetUrl]);
 
@@ -190,7 +192,7 @@ function LabelCard({
   }
 
   return (
-    <div style={{ position: 'relative', background: '#fff', border: '1.5px dashed #B9BEC4', borderRadius: 4, padding: '18px 16px 16px' }}>
+    <div style={{ position: 'relative', background: '#fff', border: '1.5px dashed #B9BEC4', borderRadius: 4, padding: '18px 16px 16px', overflow: 'hidden' }}>
       <span
         style={{
           position: 'absolute',
@@ -203,16 +205,17 @@ function LabelCard({
           border: '1.5px solid currentColor',
           color: item.status === 'active' ? 'var(--green)' : 'var(--red)',
           background: item.status === 'active' ? 'var(--green-dim)' : 'var(--red-dim)',
+          flexShrink: 0,
         }}
       >
         {item.status === 'active' ? 'ACTIVO' : 'PENDIENTE'}
       </span>
 
       <div style={{ display: 'flex', gap: 12, marginBottom: 10 }}>
-        <div style={{ width: 88, height: 88, border: '1px solid var(--line)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-          <canvas ref={canvasRef} style={{ width: 80, height: 80 }} />
+        <div style={{ width: 88, height: 88, border: '1px solid var(--line)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, overflow: 'hidden' }}>
+          <canvas ref={canvasRef} width={80} height={80} style={{ width: 80, height: 80, display: 'block' }} />
         </div>
-        <div style={{ minWidth: 0 }}>
+        <div style={{ minWidth: 0, flex: 1, paddingRight: 60 }}>
           <div style={{ fontFamily: 'monospace', fontSize: 15, fontWeight: 700 }}>{item.code}</div>
           <div style={{ fontSize: 13.5, color: 'var(--muted)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
             {item.business}
