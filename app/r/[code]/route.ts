@@ -135,3 +135,5 @@ function pendingPageHtml() {
   </div>
 </body></html>`;
 }
+</body></html>`;
+}
