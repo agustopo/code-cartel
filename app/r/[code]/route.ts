@@ -67,9 +67,7 @@ function pendingHtml() {
 <body>
   <div class="box">
     <h1><span class="accent">Este cartel</span> todavía está siendo configurado. Volvé a intentarlo <span class="accent">más tarde.</span></h1>
-    <p class="sub">Una vez que el cartel sea activado y verificado, podrás utilizarlo con normalidad. El pago se realiza mediante transferencia una vez comprobado su correcto funcionamiento.Enviá tu dirección y 
-nombre del comercio
-al 2323-328484</p>
+    <p class="sub">Una vez que el cartel sea activado y verificado, podrás utilizarlo con normalidad. El pago se realiza mediante transferencia una vez comprobado su correcto funcionamiento.</p>
     <p class="pago">
       Alias: <strong>cartel.revi</strong><br>
       CBU: <strong>3840200500000023167724</strong><br>
