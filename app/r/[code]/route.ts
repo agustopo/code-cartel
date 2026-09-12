@@ -84,10 +84,7 @@ function pendingPageHtml() {
   .footer-logo img{width:110px;height:auto;}
 </style></head>
 <body>
-  <div class="wrap">
-    <div class="logo">
-      <img src="/revi-logo.png" alt="Revi">
-    </div>
+ 
 
     <h1><span class="gold">Este cartel</span> todavía está siendo configurado. Volvé a intentarlo <span class="gold">más tarde.</span></h1>
 
