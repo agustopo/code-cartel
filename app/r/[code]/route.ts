@@ -67,9 +67,8 @@ function pendingPageHtml() {
   *{box-sizing:border-box;}
   body{margin:0;background:#5B34E0;color:#fff;font-family:'Baloo 2',system-ui,sans-serif;display:flex;justify-content:center;padding:40px 20px 56px;}
   .wrap{max-width:420px;width:100%;text-align:center;}
-  .logo{display:flex;flex-direction:column;align-items:center;margin-bottom:28px;}
-  .logo svg{width:36px;height:auto;margin-bottom:2px;}
-  .logo span{font-weight:800;font-size:28px;letter-spacing:0.5px;}
+  .logo{margin-bottom:28px;}
+  .logo img{width:150px;height:auto;}
   h1{font-size:26px;line-height:1.25;font-weight:700;margin:0 0 26px;}
   h1 .gold{color:#F5B324;}
   .importante{color:#F5B324;font-weight:800;font-size:20px;letter-spacing:1px;margin-bottom:14px;}
@@ -82,15 +81,12 @@ function pendingPageHtml() {
   .iconos{display:flex;justify-content:center;gap:34px;margin-bottom:34px;}
   .icono{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;font-weight:600;}
   .icono svg{width:30px;height:30px;}
-  .footer-logo{display:flex;flex-direction:column;align-items:center;}
-  .footer-logo svg{width:26px;height:auto;margin-bottom:2px;}
-  .footer-logo span{font-weight:800;font-size:22px;}
+  .footer-logo img{width:110px;height:auto;}
 </style></head>
 <body>
   <div class="wrap">
     <div class="logo">
-      <svg viewBox="0 0 24 14" fill="none"><path d="M2 12c5.5-8 14.5-8 20 0" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/><path d="M6.5 12c3.5-5 7.5-5 11 0" stroke="#F5B324" stroke-width="2.2" stroke-linecap="round"/></svg>
-      <span>Revi</span>
+      <img src="/revi-logo.png" alt="Revi">
     </div>
 
     <h1><span class="gold">Este cartel</span> todavía está siendo configurado. Volvé a intentarlo <span class="gold">más tarde.</span></h1>
@@ -129,8 +125,7 @@ function pendingPageHtml() {
     </div>
 
     <div class="footer-logo">
-      <svg viewBox="0 0 24 14" fill="none"><path d="M2 12c5.5-8 14.5-8 20 0" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/><path d="M6.5 12c3.5-5 7.5-5 11 0" stroke="#F5B324" stroke-width="2.2" stroke-linecap="round"/></svg>
-      <span>Revi</span>
+      <img src="/revi-logo.png" alt="Revi">
     </div>
   </div>
 </body></html>`;
