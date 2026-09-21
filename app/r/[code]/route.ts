@@ -124,6 +124,7 @@ function pendingPageHtml() {
     <div class="footer-logo">
       <img src="/revi-logo.png" alt="Revi">
     </div>
+    
   </div>
 </body></html>`;
 }
