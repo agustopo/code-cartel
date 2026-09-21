@@ -104,7 +104,7 @@ function pendingPageHtml() {
       Banco: Ualá Bank S.A.U.
     </div>
 
-    <div class="total">TOTAL: <span class="gold">QR $25.000</span> / <span class="gold">QR + NFC $35.000</span></div>
+    <div class="total">TOTAL: <span class="gold">QR $20.000</span> / <span class="gold">QR + NFC $25.000</span></div>
 
     <div class="iconos">
       <div class="icono">
